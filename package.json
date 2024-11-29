@@ -1,0 +1,46 @@
+{
+  "name": "ants-challenge-boilerplate",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ants Challenge Bolilerplate",
+  "homepage": "https://github.com/defi-wonderland/ants-challenge",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/defi-wonderland/ants-challenge.git"
+  },
+  "license": "MIT",
+  "author": "Wonderland",
+  "contributors": [],
+  "scripts": {
+    "build": "forge build",
+    "deploy:goerli": "bash -c 'source .env && forge script Deploy --rpc-url $GOERLI_RPC --broadcast --private-key $DEPLOYER_PRIVATE_KEY --verify --etherscan-api-key $ETHERSCAN_API_KEY'",
+    "lint:check": "yarn lint:sol-tests && yarn lint:sol-logic && forge fmt check",
+    "lint:fix": "sort-package-json && forge fmt && yarn lint:sol-tests --fix && yarn lint:sol-logic --fix",
+    "lint:sol-logic": "cross-env solhint -c .solhint.json 'solidity/contracts/**/*.sol' 'solidity/interfaces/**/*.sol'",
+    "lint:sol-tests": "cross-env solhint 'solidity/test/**/*.sol'",
+    "prepare": "husky install",
+    "test": "forge test -vvv",
+    "test:e2e": "forge test --match-contract E2E -vvv",
+    "test:unit:deep": "FOUNDRY_FUZZ_RUNS=5000 yarn test:unit"
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,sol}": "forge fmt",
+    "*.sol": "cross-env solhint --fix 'solidity/**/*.sol",
+    "package.json": "sort-package-json"
+  },
+  "dependencies": {
+    "ds-test": "https://github.com/dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0",
+    "forge-std": "https://github.com/foundry-rs/forge-std.git#fc560fa34fa12a335a50c35d92e55a6628ca467c",
+    "openzeppelin-solidity": "https://github.com/openzeppelin/openzeppelin-contracts.git#8d633cb7d169f2f8595b273660b00b69e845c2fe"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.0.3",
+    "@commitlint/config-conventional": "17.0.3",
+    "cross-env": "7.0.3",
+    "husky": ">=8",
+    "lint-staged": ">=10",
+    "solhint": "3.3.6",
+    "solhint-plugin-defi-wonderland": "1.1.0",
+    "sort-package-json": "1.53.1"
+  }
+}
